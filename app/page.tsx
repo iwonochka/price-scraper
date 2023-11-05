@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
+import Searchbar from '@/components/Searchbar'
 
 const Home = () => {
   return (
@@ -20,7 +21,7 @@ const Home = () => {
             Your Savings Journey Starts with <span className='text-primary'>Data</span>
           </h1>
           <p className='mt-6'>Our app harnesses the power of web scraping to provide you with real-time data on your favorite products. Discover price trends, track changes over time, and receive alerts when prices hit their lowest point – all at your fingertips.</p>
-          Searchbar
+          <Searchbar/>
         </div>
         HeroCarousel
       </div>
