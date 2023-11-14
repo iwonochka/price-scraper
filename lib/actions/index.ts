@@ -1,5 +1,6 @@
 "use server"
 
+import Product from "../models/product.model";
 import { connectToDB } from "../mongoose";
 import { scrapeAmazonProduct } from "../scraper";
 
@@ -13,6 +14,8 @@ export async function scrapeAndStoreProduct(productUrl:string) {
     connectToDB();
     const scrapedProduct = await scrapeAmazonProduct(productUrl);
     if (!scrapedProduct) return;
+    let product = scrapedProduct;
+    const existingProduct= await Product.findOne({url: product.url})
 
     console.log("scrapedProduct from try block:", scrapedProduct);
   } catch (error: any) {
