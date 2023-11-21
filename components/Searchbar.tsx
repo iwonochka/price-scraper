@@ -26,7 +26,6 @@ const Searchbar = () => {
 
     try {
       setIsLoading(true);
-      console.log("Searchbar before awaiting scrapeAndStoreProduct")
       const product = await scrapeAndStoreProduct(searchPrompt);
       console.log("Product from try block in searchbar:", product);
     } catch (error) {
