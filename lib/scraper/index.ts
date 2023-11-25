@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as cheerio from 'cheerio';
 import ScrapingAntClient from '@scrapingant/scrapingant-client';
-import { extractCurrency, extractDescription, extractPrice } from "../utils";
+import { extractCurrency, extractPrice, removeDuplicateValues } from "../utils";
 
 export async function scrapeAmazonProduct(url: string) {
   if (!url) {
@@ -39,19 +39,29 @@ export async function scrapeAmazonProduct(url: string) {
 
     const currency = extractCurrency($('.a-price-symbol'))
     const discountRate = $('.savingsPercentage').text().replace(/[-%]/g, "");
-    const description = extractDescription($)
+    const ratingsNum = removeDuplicateValues($('#acrCustomerReviewText').text().trim());
+    const rating = removeDuplicateValues($('#acrPopover .a-size-base.a-color-base').text().trim());
+    const fiveStarReviews = $('#histogramTable [aria-label*="5 stars"]').text().trim();
 
-    console.log("--Result:");
-    console.log("title", title);
-    console.log("currentPrice", currentPrice);
-    console.log("originalPrice", originalPrice);
-    console.log("outOfStock", outOfStock);
-    console.log("imageUrls", imageUrls);
-    console.log("currency", currency);
-    console.log("discountRate", discountRate);
-    console.log("description", description);
+    const data = {
+      url,
+      currency: currency || '€',
+      image: imageUrls[0],
+      title,
+      currentPrice: Number(currentPrice) || Number(originalPrice),
+      originalPrice: Number(originalPrice) || Number(currentPrice),
+      priceHistory: [],
+      highestPrice: Number(originalPrice) || Number(currentPrice),
+      lowestPrice: Number(currentPrice) || Number(originalPrice),
+      average: Number(currentPrice) || Number(originalPrice),
+      discountRate: Number(discountRate),
+      isOutOfStock: outOfStock,
+      rating,
+      ratingsNum,
+      fiveStarReviews
+    }
 
-    //Data object
+    return data;
 
   } catch (error: any) {
     throw new Error(`Failed to scrape product: ${error.message}`)
