@@ -13,7 +13,6 @@ export function extractPrice(...elements: any) {
       if (cleanPrice) {
         firstPrice = cleanPrice.match(/\d+\.\d{2}/)?.[0];
       }
-
       return firstPrice || cleanPrice;
     }
   }
@@ -34,7 +33,6 @@ export function getLowestPrice(priceList: PriceHistoryItem[]) {
       lowestPrice = priceList[i];
     }
   }
-
   return lowestPrice.price;
 }
 
@@ -46,14 +44,12 @@ export function getHighestPrice(priceList: PriceHistoryItem[]) {
       highestPrice = priceList[i];
     }
   }
-
   return highestPrice.price;
 }
 
 export function getAveragePrice(priceList: PriceHistoryItem[]) {
   const sumOfPrices = priceList.reduce((acc, curr) => acc + curr.price, 0);
   const averagePrice = sumOfPrices / priceList.length || 0;
-
   return averagePrice;
 }
 
@@ -61,3 +57,10 @@ export function removeDuplicateValues(str: string) {
   const values = str.split(/\s+/);
   return values[0];
 }
+
+export const formatNumber = (num: number = 0) => {
+  return num.toLocaleString(undefined, {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  });
+};

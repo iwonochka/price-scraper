@@ -13,7 +13,10 @@ module.exports = {
           "orange": "#D48D3B",
           "green": "#3E9242"
         },
-        secondary: "#3749b3",
+        secondary: {
+          DEFAULT: "#3749b3",
+          10: 'rgba(55, 73, 179, 0.1)',
+        },
         // "#282828"
         "gray-200": "#EAECF0",
         "gray-300": "D0D5DD",

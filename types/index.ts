@@ -23,5 +23,5 @@ export type Product = {
   users?: User[];
   rating: string;
   ratingsNum: string;
-  fiveStarReviews: string;
+  fiveStarReviews: number;
 };

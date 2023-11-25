@@ -41,7 +41,7 @@ export async function scrapeAmazonProduct(url: string) {
     const discountRate = $('.savingsPercentage').text().replace(/[-%]/g, "");
     const ratingsNum = removeDuplicateValues($('#acrCustomerReviewText').text().trim());
     const rating = removeDuplicateValues($('#acrPopover .a-size-base.a-color-base').text().trim());
-    const fiveStarReviews = $('#histogramTable [aria-label*="5 stars"]').text().trim();
+    const fiveStarReviews = $('#histogramTable [aria-label*="5 stars"]').text().replace(/[-%]/g, "");
 
     const data = {
       url,
@@ -58,7 +58,7 @@ export async function scrapeAmazonProduct(url: string) {
       isOutOfStock: outOfStock,
       rating,
       ratingsNum,
-      fiveStarReviews
+      fiveStarReviews: Number(fiveStarReviews) || "unknown"
     }
 
     return data;

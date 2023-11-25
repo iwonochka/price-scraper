@@ -23,7 +23,7 @@ const productSchema = new mongoose.Schema({
   ], default: [],
   rating: { type: String },
   ratingsNum: { type: String },
-  fiveStarReviews: { type: String },
+  fiveStarReviews: { type: Number },
 }, { timestamps: true });
 
 const Product = mongoose.models.Product || mongoose.model('Product', productSchema);
