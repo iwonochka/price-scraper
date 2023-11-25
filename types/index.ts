@@ -25,4 +25,5 @@ export type Product = {
   stars: number;
   isOutOfStock: Boolean;
   users?: User[];
+  rating: string;
 };

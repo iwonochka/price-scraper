@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as cheerio from 'cheerio';
 import ScrapingAntClient from '@scrapingant/scrapingant-client';
-import { extractCurrency, extractPrice } from "../utils";
+import { extractCurrency, extractPrice, removeDuplicateValues } from "../utils";
 
 export async function scrapeAmazonProduct(url: string) {
   if (!url) {
@@ -39,6 +39,16 @@ export async function scrapeAmazonProduct(url: string) {
 
     const currency = extractCurrency($('.a-price-symbol'))
     const discountRate = $('.savingsPercentage').text().replace(/[-%]/g, "");
+    const ratingsNum = $('#acrCustomerReviewText').text().trim();
+    const rating = removeDuplicateValues($('#acrPopover .a-size-base.a-color-base').text().trim());
+    const fiveStarReviews = $('#histogramTable [aria-label*="5 stars"]').text().trim();
+
+    console.log(
+      "rating: ", rating,
+      "ratingsNum: ", ratingsNum,
+      "5star reviews: ", fiveStarReviews
+    )
+
 
     const data = {
       url,
@@ -53,6 +63,7 @@ export async function scrapeAmazonProduct(url: string) {
       lowestPrice: Number(currentPrice) || Number(originalPrice),
       highestPrice: Number(originalPrice) || Number(currentPrice),
       average: Number(currentPrice) || Number(originalPrice),
+      rating
 
     }
 

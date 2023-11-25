@@ -17,7 +17,7 @@ export function extractPrice(...elements: any) {
       return firstPrice || cleanPrice;
     }
   }
-  
+
   return '';
 }
 
@@ -55,4 +55,9 @@ export function getAveragePrice(priceList: PriceHistoryItem[]) {
   const averagePrice = sumOfPrices / priceList.length || 0;
 
   return averagePrice;
+}
+
+export function removeDuplicateValues(str: string) {
+  const values = str.split(/\s+/);
+  return values[0];
 }
