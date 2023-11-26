@@ -58,9 +58,11 @@ export function removeDuplicateValues(str: string) {
   return values[0];
 }
 
-export const formatNumber = (num: number = 0) => {
-  return num.toLocaleString(undefined, {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  });
-};
+export function combinePrice (whole: any, fraction: any) {
+  let wholeNum = whole || 0;
+  if (wholeNum.includes('.')) {
+    wholeNum = wholeNum.split('.')[0];
+  }
+  const fractionNum = fraction.text().trim().substring(0, 2) || 0;
+  return parseFloat(`${wholeNum}.${fractionNum}`);
+}
