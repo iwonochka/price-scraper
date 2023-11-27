@@ -1,8 +1,1 @@
-<svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
-<mask id="mask0_0_5845" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="1" y="1" width="21" height="21">
-<path d="M2.39587 11.5L11.5 2.875L20.6042 11.5H14.8542V20.125H8.14587V11.5H2.39587Z" fill="#555555" stroke="white" stroke-width="2.08333" stroke-linecap="round" stroke-linejoin="round"/>
-</mask>
-<g mask="url(#mask0_0_5845)">
-<path d="M0 23H23V0H0V23Z" fill="#FF2C2C"/>
-</g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#3749b3}</style><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM135.1 217.4l107.1-99.9c3.8-3.5 8.7-5.5 13.8-5.5s10.1 2 13.8 5.5l107.1 99.9c4.5 4.2 7.1 10.1 7.1 16.3c0 12.3-10 22.3-22.3 22.3H304v96c0 17.7-14.3 32-32 32H240c-17.7 0-32-14.3-32-32V256H150.3C138 256 128 246 128 233.7c0-6.2 2.6-12.1 7.1-16.3z"/></svg>

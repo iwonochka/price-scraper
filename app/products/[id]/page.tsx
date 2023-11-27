@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import Image from 'next/image';
 import React from 'react'
 import Link from 'next/link';
+import PriceInfoCard from '@/components/PriceInfoCard';
 
 type Props = {
   params: { id: string }
@@ -123,6 +124,32 @@ const ProductDetails = async ({ params: { id } }: Props) => {
               </p>
             </div>
           </div>
+
+          <div className='my-7 flex flex-col gap-5'>
+            <div className='flex gap-5 flex-wrap'>
+            <PriceInfoCard
+                title="Current Price"
+                iconSrc="/assets/icons/price-tag.svg"
+                value={`${product.currency} ${product.currentPrice}`}
+              />
+              <PriceInfoCard
+                title="Average Price"
+                iconSrc="/assets/icons/chart.svg"
+                value={`${product.currency} ${product.averagePrice}`}
+              />
+              <PriceInfoCard
+                title="Highest Price"
+                iconSrc="/assets/icons/arrow-up.svg"
+                value={`${product.currency} ${product.highestPrice}`}
+              />
+              <PriceInfoCard
+                title="Lowest Price"
+                iconSrc="/assets/icons/arrow-down.svg"
+                value={`${product.currency} ${product.lowestPrice}`}
+              />
+            </div>
+          </div>
+
         </div>
       </div>
     </div>

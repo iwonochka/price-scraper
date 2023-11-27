@@ -40,7 +40,7 @@ export async function scrapeAmazonProduct(url: string) {
     const imageUrls = Object.keys(JSON.parse(images));
 
     const currency = extractCurrency($('.a-price-symbol'))
-    const discountRate = calculateDiscountPercentage(Number(originalPrice), Number(currentPrice));
+    const discountRate = calculateDiscountPercentage(originalPrice, currentPrice);
     const ratingsNum = removeDuplicateValues($('#acrCustomerReviewText').text().trim());
     const rating = removeDuplicateValues($('#acrPopover .a-size-base.a-color-base').text().trim());
     const fiveStarReviews = $('#histogramTable [aria-label*="5 stars"]').text().replace(/[-%]/g, "");
@@ -63,7 +63,7 @@ export async function scrapeAmazonProduct(url: string) {
       highestPrice: Number(originalPrice) || Number(currentPrice),
       lowestPrice: Number(currentPrice) || Number(originalPrice),
       average: Number(currentPrice) || Number(originalPrice),
-      discountRate: discountRate,
+      discountRate,
       isOutOfStock: outOfStock,
       rating,
       ratingsNum,

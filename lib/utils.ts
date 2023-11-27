@@ -67,7 +67,10 @@ export function combinePrice (whole: any, fraction: any) {
   return parseFloat(`${wholeNum}.${fractionNum}`);
 }
 
-export function calculateDiscountPercentage(originalPrice: number, currentPrice: number) {
-  const discount = ((originalPrice - currentPrice) / originalPrice) * 100;
-  return Math.round(discount);
+export function calculateDiscountPercentage(originalPrice: any, currentPrice: any) {
+  if (!originalPrice || !currentPrice) {
+    return '';
+  }
+  const discount = ((Number(originalPrice) - Number(currentPrice)) / originalPrice) * 100;
+  return Math.round(discount)
 }
