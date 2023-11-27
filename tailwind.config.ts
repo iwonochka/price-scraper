@@ -11,7 +11,8 @@ module.exports = {
         primary: {
           DEFAULT: "#F64C72",
           "orange": "#D48D3B",
-          "green": "#3E9242"
+          "green": "#3E9242",
+          10: 'rgba(246, 76, 114, 0.1)'
         },
         secondary: {
           DEFAULT: "#3749b3",

@@ -59,10 +59,15 @@ export function removeDuplicateValues(str: string) {
 }
 
 export function combinePrice (whole: any, fraction: any) {
-  let wholeNum = whole || 0;
+  let wholeNum = whole || "";
   if (wholeNum.includes('.')) {
     wholeNum = wholeNum.split('.')[0];
   }
   const fractionNum = fraction.text().trim().substring(0, 2) || 0;
   return parseFloat(`${wholeNum}.${fractionNum}`);
+}
+
+export function calculateDiscountPercentage(originalPrice: number, currentPrice: number) {
+  const discount = ((originalPrice - currentPrice) / originalPrice) * 100;
+  return Math.round(discount);
 }

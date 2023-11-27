@@ -86,8 +86,8 @@
     @apply flex items-center flex-wrap gap-10 py-6 border-y border-y-[#E4E4E4];
   }
 
-  .product-hearts {
-    @apply flex items-center gap-2 px-3 py-2 bg-[#FFF0F0] rounded-10;
+  .product-discount {
+    @apply flex items-center gap-2 px-3 py-2 bg-primary-10 rounded-[27px];
   }
 
   .product-rating {

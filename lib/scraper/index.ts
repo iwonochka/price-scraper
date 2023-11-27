@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as cheerio from 'cheerio';
 import ScrapingAntClient from '@scrapingant/scrapingant-client';
-import { combinePrice, extractCurrency, extractPrice, removeDuplicateValues } from "../utils";
+import { calculateDiscountPercentage, combinePrice, extractCurrency, extractPrice, removeDuplicateValues } from "../utils";
 
 export async function scrapeAmazonProduct(url: string) {
   if (!url) {
@@ -26,7 +26,7 @@ export async function scrapeAmazonProduct(url: string) {
     const currentPrice = combinePrice(priceWhole, priceFraction);
     const originalPrice = extractPrice(
       $('#priceblock_ourprice'),
-      $('.a-price.a-text-price span.a-offscreen'),
+      $('.basisPrice .a-offscreen'),
       $('#listPrice'),
       $('#priceblock_dealprice'),
       $('.a-size-base.a-color-price')
@@ -40,10 +40,17 @@ export async function scrapeAmazonProduct(url: string) {
     const imageUrls = Object.keys(JSON.parse(images));
 
     const currency = extractCurrency($('.a-price-symbol'))
-    const discountRate = $('.savingsPercentage').text().replace(/[-%]/g, "");
+    const discountRate = calculateDiscountPercentage(Number(originalPrice), Number(currentPrice));
     const ratingsNum = removeDuplicateValues($('#acrCustomerReviewText').text().trim());
     const rating = removeDuplicateValues($('#acrPopover .a-size-base.a-color-base').text().trim());
     const fiveStarReviews = $('#histogramTable [aria-label*="5 stars"]').text().replace(/[-%]/g, "");
+
+    console.log(
+      "whole", priceWhole,
+      "current:", currentPrice,
+      "original", originalPrice,
+      "discount", discountRate,
+    )
 
     const data = {
       url,
@@ -56,7 +63,7 @@ export async function scrapeAmazonProduct(url: string) {
       highestPrice: Number(originalPrice) || Number(currentPrice),
       lowestPrice: Number(currentPrice) || Number(originalPrice),
       average: Number(currentPrice) || Number(originalPrice),
-      discountRate: Number(discountRate),
+      discountRate: discountRate,
       isOutOfStock: outOfStock,
       rating,
       ratingsNum,

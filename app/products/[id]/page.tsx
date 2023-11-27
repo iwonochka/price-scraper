@@ -68,17 +68,33 @@ const ProductDetails = async ({ params: { id } }: Props) => {
               <p className="text-[34px] text-black font-bold">
                 {product.currency} {product.currentPrice}
               </p>
-              <p className="text-[21px] text-black opacity-50 line-through">
-                {product.currency} {product.originalPrice}
-              </p>
+              {product.currentPrice !== product.originalPrice && (
+                <p className="text-[21px] text-black opacity-50 line-through">
+                  {product.currency} {product.originalPrice}
+                </p>
+              )}
             </div>
 
             <div className="flex flex-col gap-4">
               <div className="flex gap-3">
+                {product.currentPrice !== product.originalPrice && (
+                  <div className="product-discount">
+                      <Image
+                        src="/assets/icons/savings.svg"
+                        alt="savings"
+                        width={16}
+                        height={16}
+                      />
+                      <p className="text-sm text-primary font-semibold">
+                        -{product.discountRate}%
+                      </p>
+                  </div>
+                )}
+
                 <div className="product-rating">
                   <Image
                     src="/assets/icons/star.svg"
-                    alt="star"
+                    alt="rating"
                     width={16}
                     height={16}
                   />
@@ -90,7 +106,7 @@ const ProductDetails = async ({ params: { id } }: Props) => {
                 <div className="product-reviews">
                   <Image
                     src="/assets/icons/comment.svg"
-                    alt="comment"
+                    alt="reviews"
                     width={16}
                     height={16}
                   />
@@ -110,7 +126,6 @@ const ProductDetails = async ({ params: { id } }: Props) => {
         </div>
       </div>
     </div>
-
   )
 }
 
