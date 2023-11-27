@@ -33,14 +33,6 @@ const ProductDetails = async ({ params: { id } }: Props) => {
               <p className="text-[24px] text-black font-semibold">
                 {product.title}
               </p>
-
-              <Link
-                href={product.url}
-                target="_blank"
-                className="text-base text-black opacity-50"
-              >
-                Visit Product
-              </Link>
             </div>
 
             <div className="flex items-center gap-3">
@@ -148,9 +140,26 @@ const ProductDetails = async ({ params: { id } }: Props) => {
                 value={`${product.currency} ${product.lowestPrice}`}
               />
             </div>
-          </div>
 
+            <button className="btn w-full rounded-[10px] mx-auto flex items-center justify-center gap-3 mt-3 min-w-[200px]">
+              <Image
+                src="/assets/icons/bag.svg"
+                alt="check"
+                width={22}
+                height={22}
+              />
+              <Link href={product.url} target='_blank' className="text-base text-white">
+                Buy now from Amazon
+              </Link>
+            </button>
+
+          </div>
+          {/* Modal */}
         </div>
+      </div>
+
+      <div className="flex">
+
       </div>
     </div>
   )
