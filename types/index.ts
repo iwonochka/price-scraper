@@ -25,3 +25,18 @@ export type Product = {
   ratingsNum: string;
   fiveStarReviews: number;
 };
+
+export type NotificationType =
+  | "WELCOME"
+  | "CHANGE_OF_STOCK"
+  | "LOWEST_PRICE"
+
+export type EmailContent = {
+  subject: string;
+  body: string;
+};
+
+export type EmailProductInfo = {
+  title: string;
+  url: string;
+};
