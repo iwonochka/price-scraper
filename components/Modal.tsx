@@ -4,7 +4,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import Image from 'next/image';
 
 const Modal = () => {
-  let [isOpen, setIsOpen] = useState(true)
+  let [isOpen, setIsOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [email, setEmail] = useState('');
 
