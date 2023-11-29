@@ -7,7 +7,7 @@ import { connectToDB } from "../mongoose";
 import { scrapeAmazonProduct } from "../scraper";
 import { getAveragePrice, getHighestPrice, getLowestPrice } from '../utils';
 import { User } from "@/types";
-import { generateEmailBody } from "../nodemailer";
+import { generateEmailBody, sendEmail } from "../nodemailer";
 
 export async function scrapeAndStoreProduct(productUrl:string) {
   if(!productUrl) {
@@ -82,8 +82,10 @@ export async function addUserEmailToProduct(productId: string, userEmail: string
     if(!userExists) {
       product.users.push({email: userEmail})
       await product.save();
-      const emailContent = generateEmailBody(product, "WELCOME");
-      //Send email
+      const emailContent = await generateEmailBody(product, "WELCOME");
+      await sendEmail(emailContent, [userEmail]);
+    } else {
+      console.log("This email address is already tracking this item.")
     }
 
   } catch (error) {
