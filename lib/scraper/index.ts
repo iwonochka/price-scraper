@@ -1,4 +1,3 @@
-import axios from "axios";
 import * as cheerio from 'cheerio';
 import ScrapingAntClient from '@scrapingant/scrapingant-client';
 import { calculateDiscountPercentage, combinePrice, extractCurrency, extractPrice, removeDuplicateValues } from "../utils";
@@ -62,12 +61,12 @@ export async function scrapeAmazonProduct(url: string) {
       priceHistory: [],
       highestPrice: Number(originalPrice) || Number(currentPrice),
       lowestPrice: Number(currentPrice) || Number(originalPrice),
-      average: Number(currentPrice) || Number(originalPrice),
+      averagePrice: Number(currentPrice) || Number(originalPrice),
       discountRate,
       isOutOfStock: outOfStock,
       rating,
       ratingsNum,
-      fiveStarReviews: Number(fiveStarReviews) || "unknown"
+      fiveStarReviews: Number(fiveStarReviews) || ''
     }
 
     return data;

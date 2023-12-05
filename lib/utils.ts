@@ -1,5 +1,10 @@
-import { Cheerio } from "cheerio";
-import { PriceHistoryItem } from "@/types";
+import { PriceHistoryItem, Product } from "@/types";
+
+const Notification = {
+  WELCOME: 'WELCOME',
+  CHANGE_OF_STOCK: 'CHANGE_OF_STOCK',
+  LOWEST_PRICE: 'LOWEST_PRICE',
+}
 
 export function extractPrice(...elements: any) {
   for (const element of elements) {
@@ -74,3 +79,16 @@ export function calculateDiscountPercentage(originalPrice: any, currentPrice: an
   const discount = ((Number(originalPrice) - Number(currentPrice)) / originalPrice) * 100;
   return Math.round(discount)
 }
+
+export const getEmailNotifType = (scrapedProduct: Product, currentProduct: Product ) => {
+  const lowestPrice = getLowestPrice(currentProduct.priceHistory);
+
+  if (scrapedProduct.currentPrice < lowestPrice) {
+    return Notification.LOWEST_PRICE as keyof typeof Notification;
+  }
+  if (!scrapedProduct.isOutOfStock && currentProduct.isOutOfStock) {
+    return Notification.CHANGE_OF_STOCK as keyof typeof Notification;
+  }
+
+  return null;
+};

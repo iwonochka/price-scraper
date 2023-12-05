@@ -18,12 +18,12 @@ export type Product = {
   highestPrice: number;
   lowestPrice: number;
   averagePrice: number;
-  discountRate: number;
+  discountRate: number | string;
   isOutOfStock: Boolean;
   users?: User[];
   rating: string;
   ratingsNum: string;
-  fiveStarReviews: number;
+  fiveStarReviews: number | string;
 };
 
 export type NotificationType =
