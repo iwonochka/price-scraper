@@ -18,10 +18,25 @@ export type Product = {
   highestPrice: number;
   lowestPrice: number;
   averagePrice: number;
-  discountRate: number;
+  discountRate: number | string;
   isOutOfStock: Boolean;
   users?: User[];
   rating: string;
   ratingsNum: string;
-  fiveStarReviews: string;
+  fiveStarReviews: number | string;
+};
+
+export type NotificationType =
+  | "WELCOME"
+  | "CHANGE_OF_STOCK"
+  | "LOWEST_PRICE"
+
+export type EmailContent = {
+  subject: string;
+  body: string;
+};
+
+export type EmailProductInfo = {
+  title: string;
+  url: string;
 };

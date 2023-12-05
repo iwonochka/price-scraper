@@ -1,5 +1,10 @@
-import { Cheerio } from "cheerio";
-import { PriceHistoryItem } from "@/types";
+import { PriceHistoryItem, Product } from "@/types";
+
+const Notification = {
+  WELCOME: 'WELCOME',
+  CHANGE_OF_STOCK: 'CHANGE_OF_STOCK',
+  LOWEST_PRICE: 'LOWEST_PRICE',
+}
 
 export function extractPrice(...elements: any) {
   for (const element of elements) {
@@ -13,7 +18,6 @@ export function extractPrice(...elements: any) {
       if (cleanPrice) {
         firstPrice = cleanPrice.match(/\d+\.\d{2}/)?.[0];
       }
-
       return firstPrice || cleanPrice;
     }
   }
@@ -34,7 +38,6 @@ export function getLowestPrice(priceList: PriceHistoryItem[]) {
       lowestPrice = priceList[i];
     }
   }
-
   return lowestPrice.price;
 }
 
@@ -46,14 +49,12 @@ export function getHighestPrice(priceList: PriceHistoryItem[]) {
       highestPrice = priceList[i];
     }
   }
-
   return highestPrice.price;
 }
 
 export function getAveragePrice(priceList: PriceHistoryItem[]) {
   const sumOfPrices = priceList.reduce((acc, curr) => acc + curr.price, 0);
   const averagePrice = sumOfPrices / priceList.length || 0;
-
   return averagePrice;
 }
 
@@ -61,3 +62,33 @@ export function removeDuplicateValues(str: string) {
   const values = str.split(/\s+/);
   return values[0];
 }
+
+export function combinePrice (whole: any, fraction: any) {
+  let wholeNum = whole || "";
+  if (wholeNum.includes('.')) {
+    wholeNum = wholeNum.split('.')[0];
+  }
+  const fractionNum = fraction.text().trim().substring(0, 2) || 0;
+  return parseFloat(`${wholeNum}.${fractionNum}`);
+}
+
+export function calculateDiscountPercentage(originalPrice: any, currentPrice: any) {
+  if (!originalPrice || !currentPrice) {
+    return '';
+  }
+  const discount = ((Number(originalPrice) - Number(currentPrice)) / originalPrice) * 100;
+  return Math.round(discount)
+}
+
+export const getEmailNotifType = (scrapedProduct: Product, currentProduct: Product ) => {
+  const lowestPrice = getLowestPrice(currentProduct.priceHistory);
+
+  if (scrapedProduct.currentPrice < lowestPrice) {
+    return Notification.LOWEST_PRICE as keyof typeof Notification;
+  }
+  if (!scrapedProduct.isOutOfStock && currentProduct.isOutOfStock) {
+    return Notification.CHANGE_OF_STOCK as keyof typeof Notification;
+  }
+
+  return null;
+};
