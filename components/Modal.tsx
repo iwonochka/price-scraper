@@ -1,5 +1,5 @@
 "use client"
-import React, { FormEvent, Fragment, useState } from 'react'
+import React, { FormEvent, Fragment, useState, useEffect} from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import Image from 'next/image';
 import { addUserEmailToProduct } from '@/lib/actions';
@@ -12,19 +12,28 @@ const Modal = ({ productId }: Props) => {
   let [isOpen, setIsOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
 
   const openModal = () => setIsOpen(true);
-  const closeModal = () => setIsOpen(false);
+  const closeModal = () => {
+    setIsOpen(false)
+    setTimeout(() => {
+      setMessage('');
+    }, 200);
+  };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    await addUserEmailToProduct(productId, email);
-
+    const result = await addUserEmailToProduct(productId, email);
+    if (result === true) {
+      setMessage(`Yaay! You're tracking this product now. Check your mailbox (including spam folder) for more info.`);
+    } else {
+      setMessage(result);
+    }
     setIsSubmitting(false)
     setEmail('')
-    closeModal()
   }
 
   return (
@@ -75,7 +84,7 @@ const Modal = ({ productId }: Props) => {
                     />
                   </div>
                   <h4 className="dialog-head_text">
-                    Set product pricing alert!
+                    {message ? '' : 'Set product pricing alert!'}
                   </h4>
                 </div>
 
@@ -90,10 +99,10 @@ const Modal = ({ productId }: Props) => {
               </div>
 
               <p className="text-sm text-gray-600 mt-4">
-                We'll notify you when the price of your item drops.
+                {message ?? `We'll notify you when the price of your item drops.`}
               </p>
             </div>
-
+            {!message &&
             <form className="flex flex-col mt-5" onSubmit={handleSubmit}>
               <label htmlFor="email" className="text-sm font-medium text-gray-700">
                 Email address
@@ -123,6 +132,7 @@ const Modal = ({ productId }: Props) => {
                 {isSubmitting ? 'Submitting...' : 'Track item'}
               </button>
             </form>
+            }
           </div>
         </Transition.Child>
       </div>

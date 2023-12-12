@@ -8,6 +8,7 @@ import { scrapeAmazonProduct } from "../scraper";
 import { getAveragePrice, getHighestPrice, getLowestPrice } from '../utils';
 import { User } from "@/types";
 import { generateEmailBody, sendEmail } from "../nodemailer";
+import { SubscriptionErrors } from "../errors";
 
 export async function scrapeAndStoreProduct(productUrl:string) {
   if(!productUrl) {
@@ -77,19 +78,22 @@ export async function addUserEmailToProduct(productId: string, userEmail: string
   try {
     connectToDB();
     const product = await Product.findById(productId);
-    if (!product) return;
+    if (!product) {
+      return SubscriptionErrors.ITEM_NOT_FOUND
+    }
     const userExists = product.users.some((user: User) => user.email === userEmail);
     if(!userExists) {
       product.users.push({email: userEmail})
       await product.save();
       const emailContent = await generateEmailBody(product, "WELCOME");
       await sendEmail(emailContent, [userEmail]);
+      return true;
     } else {
-      console.log("This email address is already tracking this item.")
+      return SubscriptionErrors.DOUBLED_EMAIL
     }
 
   } catch (error) {
     console.log(error);
+    return SubscriptionErrors.DEFAULT_ERROR
   }
-
 }
